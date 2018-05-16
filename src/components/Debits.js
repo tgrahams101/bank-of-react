@@ -10,8 +10,14 @@ class Debits extends Component {
         this.handleNewDebitSubmit = this.handleNewDebitSubmit.bind(this);
     }
 
-    handleNewDebitSubmit(hi, now) {
-        console.log('Bruhhh!', this, hi, now);
+    handleNewDebitSubmit(description, debitAmount) {
+        console.log('Bruhhh!', this, description, debitAmount);
+        let payload = {
+            description,
+            debitAmount
+        };
+        payload.date = new Date(Date.now());
+        console.log('payLoad for POST', payload);
     }
     
 
