@@ -18,8 +18,10 @@ class App extends Component {
       debits: null,
       credits: null
     };
+    this.handleDebitPayload = this.handleDebitPayload.bind(this);
   }
   componentDidMount() {
+    console.log('COMPONENT DID MOUNT');
     const makeCall = async () => {
       try {
         let responseDebits = await axios.get("http://localhost:4000/debits");
@@ -49,12 +51,31 @@ class App extends Component {
     makeCall();
   }
 
+
+
   mockLogIn(logInInfo) {
     const newUser = {...this.state.currentUser};
     newUser.userName = logInInfo.userName;
     this.setState({currentUser: newUser});
   }
   
+  handleDebitPayload(payload) {
+    console.log('HANDLE DEBIT PAY LOAD');
+    this.state.debits.push(payload);
+    console.log(this.state.debits[this.state.debits.length - 1]);
+    let debitSum  = this.state.debits.reduce( (previous, current) => {
+      return previous + current.amount;
+    }, 0);
+    let creditSum  = this.state.credits.reduce( (previous, current) => {
+      return previous + current.amount;
+    }, 0);
+
+    let balance = creditSum - debitSum;
+    balance = parseFloat(Math.round(balance * 100) / 100).toFixed(2);
+    console.log('PREVIOUS STATE', this.state.accountBalance);
+    this.setState({accountBalance: balance});
+    console.log('DONE WITH HANDLE DEBIT PAYLOAD!', this.state.accountBalance);
+  }
   
   
   render() {
@@ -66,7 +87,7 @@ class App extends Component {
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>)
     console.log(this.mockLogIn);
     const DebitsComponent = () => {
-      return (<Debits  currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
+      return (<Debits  callParentAdd={this.handleDebitPayload} currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
     };
 
     return (

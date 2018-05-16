@@ -14,10 +14,12 @@ class Debits extends Component {
         console.log('Bruhhh!', this, description, debitAmount);
         let payload = {
             description,
-            debitAmount
+            amount: debitAmount
         };
         payload.date = new Date(Date.now());
+        payload.date = payload.date.toString();
         console.log('payLoad for POST', payload);
+        this.props.callParentAdd(payload);
     }
     
 
