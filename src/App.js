@@ -13,8 +13,10 @@ class App extends Component {
       accountBalance: -14568.27,
       currentUser: {
         userName: 'bob_loblav',
-        memberSince: '08/23/99'
-      }
+        memberSince: '08/23/99',
+      },
+      debits: null,
+      credits: null
     };
   }
   componentDidMount() {
@@ -30,12 +32,15 @@ class App extends Component {
         let creditSum  = creditsArray.reduce( (previous, current) => {
           return previous + current.amount;
         }, 0);
+
         let balance = creditSum - debitSum;
         balance = parseFloat(Math.round(balance * 100) / 100).toFixed(2);
         console.log('PREVIOUS STATE', this.state.accountBalance);
         this.setState({accountBalance: balance});
-        console.log('NEW STATE', this.state.accountBalance);        
-        console.log(creditSum, debitSum);
+        this.setState({credits: creditsArray});
+        this.setState({debits: debitsArray});
+        console.log('NEW STATE', this.state);        
+        console.log(creditsArray, debitsArray);
       } catch (error) {
         console.log(error);
       }
@@ -45,9 +50,9 @@ class App extends Component {
   }
 
   mockLogIn(logInInfo) {
-    const newUser = {...this.state.currentUser}
-    newUser.userName = logInInfo.userName
-    this.setState({currentUser: newUser})
+    const newUser = {...this.state.currentUser};
+    newUser.userName = logInInfo.userName;
+    this.setState({currentUser: newUser});
   }
   
   
@@ -61,7 +66,7 @@ class App extends Component {
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>)
     console.log(this.mockLogIn);
     const DebitsComponent = () => {
-      return (<Debits     /> )
+      return (<Debits  currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
     };
 
     return (
