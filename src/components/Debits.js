@@ -24,12 +24,17 @@ class Debits extends Component {
     
 
     render() {
+        
         console.log(this.props);
         const showDebits = () => {
             if (this.props.debits) {
-                return this.props.debits.map( (element, index) => {
-                    return <DebitEntry entry={element} key={index} />
-                });
+                // return this.props.debits.map( (element, index) => {
+                //     return <DebitEntry entry={element} key={index} />
+                // });
+
+                 for (let i = 0; i < this.props.debits; i++) {
+                    return <DebitEntry entry= {this.props.debits[i]} key ={i} />
+                }
             } else {
                 return null;
             }
@@ -42,7 +47,12 @@ class Debits extends Component {
             <NewDebitForm handleSubmit={this.handleNewDebitSubmit} />
             <Link to="/"> Back Home </Link>
 
-            {showDebits()}
+            { (() => {
+                 return this.props.debits.map( (element, index) => {
+                    return <DebitEntry entry={element} key={index} />;
+                });
+            })()
+            }
 
         </section>
 

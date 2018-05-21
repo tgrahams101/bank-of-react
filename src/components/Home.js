@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Home extends Component {
   render() {
+    console.log('HOME COMPONENT');
     return (
         <div>
           <br />
