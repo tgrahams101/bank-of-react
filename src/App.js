@@ -5,6 +5,7 @@ import UserProfile from './components/UserProfile';
 import LogIn from './components/Login';
 import axios from 'axios';
 import Debits from './components/Debits';
+import Credits from './components/Credits';
 
 class App extends Component {
   constructor() {
@@ -90,11 +91,15 @@ class App extends Component {
     const DebitsComponent = () => {
       return (<Debits  callParentAdd={this.handleDebitPayload} currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
     };
+    const CreditsComponent = () => {
+      return (<Credits  /> )
+    };
 
     return (
       <Router>
           <Switch>
             <Route exact path="/debits" render={DebitsComponent} />
+            <Route exact path="/credits" render={CreditsComponent} />
             <Route exact path="/userProfile" render={UserProfileComponent} />
             <Route exact path="/login" render={LogInComponent} />
             <Route exact path="/" render={HomeComponent} />

@@ -13,7 +13,6 @@ const DebitEntry = (props) => {
             <hr />
         </div>        
     );
-
 };
 
 export default DebitEntry;
