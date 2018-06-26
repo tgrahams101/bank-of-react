@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 class UserProfile extends Component {
+  componentDidMount() {
+    console.log('PROPS FROM USER PROFILE MOUNT', this.props);
+  }
   render() {
     return (
         <div>

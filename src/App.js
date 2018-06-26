@@ -19,13 +19,14 @@ class App extends Component {
       credits: null
     };
     this.handleDebitPayload = this.handleDebitPayload.bind(this);
+    this.mockLogIn = this.mockLogIn.bind(this);
   }
   componentDidMount() {
     console.log('COMPONENT DID MOUNT');
     const makeCall = async () => {
       try {
-        let responseDebits = await axios.get("http://localhost:4000/debits");
-        let responseCredits = await axios.get("http://localhost:4000/credits");
+        let responseDebits = await axios.get("/debits");
+        let responseCredits = await axios.get("/credits");
         let debitsArray = responseDebits.data;
         let creditsArray = responseCredits.data;
         let debitSum  = debitsArray.reduce( (previous, current) => {

@@ -9,6 +9,18 @@ class Debits extends Component {
         super();
         this.handleNewDebitSubmit = this.handleNewDebitSubmit.bind(this);
     }
+    static get defaultProps() {
+        console.log('GET DEFAULT PROPS');
+        return {
+            debits: [
+                {
+                    description: 'yeah',
+                    amount: 400,
+                    date: '11/10/1988'
+                }
+            ]
+        };
+    }
 
     handleNewDebitSubmit(description, debitAmount) {
         console.log('Bruhhh!', this, description, debitAmount);
@@ -25,7 +37,7 @@ class Debits extends Component {
 
     render() {
         
-        console.log(this.props);
+        console.log('THE PROPS IN COMPONENT', this.props);
         const showDebits = () => {
             if (this.props.debits) {
                 // return this.props.debits.map( (element, index) => {
@@ -47,11 +59,9 @@ class Debits extends Component {
             <NewDebitForm handleSubmit={this.handleNewDebitSubmit} />
             <Link to="/"> Back Home </Link>
 
-            { (() => {
-                 return this.props.debits.map( (element, index) => {
+            { this.props.debits && (this.props.debits.map( (element, index) => {
                     return <DebitEntry entry={element} key={index} />;
-                });
-            })()
+                }))
             }
 
         </section>
@@ -59,6 +69,5 @@ class Debits extends Component {
         );
     }
 }
-
 
 export default Debits;

@@ -13,6 +13,10 @@ class LogIn extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log('PROPS FROM LOGIN MOUNT', this.props);
+  }
+
   handleChange = (e) => {
     const updatedUser = {...this.state.user}
     const inputField = e.target.name
@@ -24,7 +28,7 @@ class LogIn extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.mockLogIn(this.state.user)
+    this.props.mockLogIn(this.state.user);
     this.setState({redirect: true})
   }
 
