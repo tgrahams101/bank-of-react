@@ -21,6 +21,7 @@ class App extends Component {
     };
     this.handleDebitPayload = this.handleDebitPayload.bind(this);
     this.mockLogIn = this.mockLogIn.bind(this);
+    this.processNewCredit = this.processNewCredit.bind(this);
     console.log('IN APP CONSTRUCTOR');
   }
   componentDidMount() {
@@ -66,6 +67,46 @@ class App extends Component {
     console.log('HANDLE DEBIT PAY LOAD');
     this.state.debits.push(payload);
     console.log(this.state.debits[this.state.debits.length - 1]);
+    // const balance = this.calculateBalance();
+    // this.setState({accountBalance: balance});
+    // console.log('DONE WITH HANDLE DEBIT PAYLOAD!', this.state.accountBalance);
+    this.calculateBalance();
+  }
+
+  async processNewCredit(newCredit) {
+    const dateNow = new Date(Date.now());
+    const dateString = dateNow.toString();
+    console.log('PROCESSING NEW CREDIT IN APP COMPONENT', newCredit);
+    const creditsArray = [ ...this.state.credits];
+    creditsArray.push({
+      date: dateString,
+      ...newCredit
+    });
+    console.log('BEFORE CREDITS SET STATE', this.state.credits)
+    await this.setState({credits: creditsArray});
+    console.log('AFTER CREDITS SET STATE', this.state.credits)
+    // this.forceUpdate();
+    console.log('AFTER CREDIT SET STATE, LAST NEW ENTRY', creditsArray[creditsArray.length - 1]);
+    // let debitSum  = this.state.debits.reduce( (previous, current) => {
+    //   return previous + current.amount;
+    // }, 0);
+    // let creditSum  = this.state.credits.reduce( (previous, current) => {
+    //   return previous + current.amount;
+    // }, 0);
+
+    // let balance = creditSum - debitSum;
+    // balance = parseFloat(Math.round(balance * 100) / 100).toFixed(2);
+    console.log('PREVIOUS STATE', this.state.accountBalance);
+    // const balance = this.calculateBalance();
+    console.log('BEFORE CALCULATE BALANCE', this.state.credits);
+    this.calculateBalance();
+    // console.log('DEBUGGING', balance, this.state.credits.length, this.state.debits.length)
+    // this.setState({accountBalance: balance});
+    // console.log('DONE WITH HANDLE CREDIT PAYLOAD!', this.state.accountBalance);
+  }
+
+  calculateBalance() {
+    console.log('STARTING CALCULATE BALANCE', this.state.credits);
     let debitSum  = this.state.debits.reduce( (previous, current) => {
       return previous + current.amount;
     }, 0);
@@ -77,7 +118,7 @@ class App extends Component {
     balance = parseFloat(Math.round(balance * 100) / 100).toFixed(2);
     console.log('PREVIOUS STATE', this.state.accountBalance);
     this.setState({accountBalance: balance});
-    console.log('DONE WITH HANDLE DEBIT PAYLOAD!', this.state.accountBalance);
+    return balance;
   }
   
   
@@ -92,7 +133,7 @@ class App extends Component {
       return (<Debits  callParentAdd={this.handleDebitPayload} currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
     };
     const CreditsComponent = () => {
-      return (<Credits credits={this.state.credits} balance={this.state.accountBalance}/> )
+      return (<Credits credits={this.state.credits} balance={this.state.accountBalance} processNewCredit={ this.processNewCredit }/> )
     };
     console.log('IN APP COMPONENT RENDER');
     return (
