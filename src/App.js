@@ -21,9 +21,10 @@ class App extends Component {
     };
     this.handleDebitPayload = this.handleDebitPayload.bind(this);
     this.mockLogIn = this.mockLogIn.bind(this);
+    console.log('IN APP CONSTRUCTOR');
   }
   componentDidMount() {
-    console.log('COMPONENT DID MOUNT');
+    console.log('IN APP COMPONENT DID MOUNT');
     const makeCall = async () => {
       try {
         let responseDebits = await axios.get("/debits");
@@ -86,15 +87,14 @@ class App extends Component {
     const UserProfileComponent = () => {
       return (<UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />)
     };
-    const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>)
-    console.log(this.mockLogIn);
+    const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>);
     const DebitsComponent = () => {
       return (<Debits  callParentAdd={this.handleDebitPayload} currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
     };
     const CreditsComponent = () => {
-      return (<Credits  /> )
+      return (<Credits credits={this.state.credits} /> )
     };
-
+    console.log('IN APP COMPONENT RENDER');
     return (
       <Router>
           <Switch>
