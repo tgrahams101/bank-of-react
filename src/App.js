@@ -92,7 +92,7 @@ class App extends Component {
       return (<Debits  callParentAdd={this.handleDebitPayload} currentUser={this.state.currentUser} credits={this.state.credits} debits={this.state.debits} balance={this.state.accountBalance} /> )
     };
     const CreditsComponent = () => {
-      return (<Credits credits={this.state.credits} /> )
+      return (<Credits credits={this.state.credits} balance={this.state.accountBalance}/> )
     };
     console.log('IN APP COMPONENT RENDER');
     return (
